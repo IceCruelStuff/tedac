@@ -26,27 +26,29 @@ func init() {
 		panic(err)
 	}
 	for name, id := range m {
+		if alias, ok := latestmappings.AliasFromUpdatedItemName(name); ok {
+			name = alias
+		}
 		items = append(items, ItemEntry{Name: name, LegacyID: id})
 		itemNamesToIDs[name] = id
 		itemIDsToNames[id] = name
-
-		if alias, ok := latestmappings.AliasFromUpdatedItemName(name); ok {
-			name = alias
-			items = append(items, ItemEntry{Name: name, LegacyID: id})
-			itemNamesToIDs[name] = id
-			itemIDsToNames[id] = name
-		}
 	}
 }
 
 // ItemNameByID returns an item's name by its legacy ID.
 func ItemNameByID(id int16) (string, bool) {
 	name, ok := itemIDsToNames[id]
+	if alias, ok := latestmappings.AliasFromUpdatedItemName(name); ok {
+		name = alias
+	}
 	return name, ok
 }
 
 // ItemIDByName returns an item's ID by its name.
 func ItemIDByName(name string) (int16, bool) {
+	if alias, ok := latestmappings.AliasFromUpdatedItemName(name); ok {
+		name = alias
+	}
 	id, ok := itemNamesToIDs[name]
 	if !ok {
 		id = itemNamesToIDs["minecraft:name_tag"]
