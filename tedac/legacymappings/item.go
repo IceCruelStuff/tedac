@@ -3,6 +3,8 @@ package legacymappings
 import (
 	_ "embed"
 	"encoding/json"
+
+	"github.com/tedacmc/tedac/tedac/latestmappings"
 )
 
 var (
@@ -27,28 +29,24 @@ func init() {
 		items = append(items, ItemEntry{Name: name, LegacyID: id})
 		itemNamesToIDs[name] = id
 		itemIDsToNames[id] = name
+
+		if alias, ok := latestmappings.AliasFromUpdatedItemName(name); ok {
+			name = alias
+			items = append(items, ItemEntry{Name: name, LegacyID: id})
+			itemNamesToIDs[name] = id
+			itemIDsToNames[id] = name
+		}
 	}
 }
 
 // ItemNameByID returns an item's name by its legacy ID.
 func ItemNameByID(id int16) (string, bool) {
 	name, ok := itemIDsToNames[id]
-
-	if name == "minecraft:netherstar" {
-		name = "minecraft:nether_star"
-	}
-	// TODO: Properly handle item aliases.
-
 	return name, ok
 }
 
 // ItemIDByName returns an item's ID by its name.
 func ItemIDByName(name string) (int16, bool) {
-	if name == "minecraft:nether_star" {
-		name = "minecraft:netherstar"
-	}
-	// TODO: Properly handle item aliases.
-
 	id, ok := itemNamesToIDs[name]
 	if !ok {
 		id = itemNamesToIDs["minecraft:name_tag"]

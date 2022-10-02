@@ -4,11 +4,12 @@ import (
 	"bytes"
 	_ "embed"
 	"fmt"
-	"github.com/sandertv/gophertunnel/minecraft/nbt"
-	"github.com/segmentio/fasthash/fnv1"
 	"sort"
 	"strings"
 	"unsafe"
+
+	"github.com/sandertv/gophertunnel/minecraft/nbt"
+	"github.com/segmentio/fasthash/fnv1"
 )
 
 // State holds a combination of a name and properties, together with a version.
@@ -92,7 +93,7 @@ func Adjust(customStates []State) {
 
 // StateToRuntimeID converts a name and its state properties to a runtime ID.
 func StateToRuntimeID(name string, properties map[string]any) (runtimeID uint32, found bool) {
-	if updated, ok := UpdatedNameFromAlias(name); ok {
+	if updated, ok := UpdatedBlockNameFromAlias(name); ok {
 		name = updated
 	}
 	rid, ok := stateRuntimeIDs[HashState(State{Name: name, Properties: properties})]

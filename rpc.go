@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/hugolgst/rich-go/client"
 	"time"
+
+	"github.com/hugolgst/rich-go/client"
 )
 
 // discordID represents the Discord application ID of Tedac.
@@ -23,7 +24,7 @@ func (a *App) startRPC() {
 		case <-t.C:
 			err = client.SetActivity(client.Activity{
 				State:      a.remoteAddress,
-				Details:    "Playing Minecraft: Bedrock Edition on 1.12",
+				Details:    "Playing MCBE",
 				LargeImage: "tedac",
 				LargeText:  "TedacMC",
 				SmallImage: "mc",

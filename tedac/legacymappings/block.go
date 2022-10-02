@@ -3,6 +3,7 @@ package legacymappings
 import (
 	_ "embed"
 	"encoding/json"
+
 	"github.com/tedacmc/tedac/tedac/latestmappings"
 )
 
@@ -35,7 +36,7 @@ func init() {
 
 	for latestRID, meta := range blockStateMetas {
 		name, properties, _ := latestmappings.RuntimeIDToState(uint32(latestRID))
-		if alias, ok := latestmappings.AliasFromUpdatedName(name); ok {
+		if alias, ok := latestmappings.AliasFromUpdatedBlockName(name); ok {
 			name = alias
 		}
 
@@ -60,7 +61,7 @@ func init() {
 
 // StateToRuntimeID converts a name and its state properties to a runtime ID.
 func StateToRuntimeID(name string, properties map[string]any) uint32 {
-	if alias, ok := latestmappings.AliasFromUpdatedName(name); ok {
+	if alias, ok := latestmappings.AliasFromUpdatedBlockName(name); ok {
 		name = alias
 	}
 	rid, ok := stateToRuntimeID[latestmappings.HashState(latestmappings.State{Name: name, Properties: properties})]
